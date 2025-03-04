@@ -63,7 +63,9 @@ class ArmComponent:
         #    Why isn't there a length/width input? We'll set those later in the make_shape_* methods
         # TODO Step 2: Make sure you change get_shape_matrix and get_pose_matrix to return the matrices you create
         # YOUR CODE HERE
-
+        self.link_width = 0
+        self.angle = 0
+        self.link_length = 1
         self.shape_matrix = np.identity(3)
         self.pose_matrix = np.identity(3)
 
@@ -138,6 +140,8 @@ class ArmComponent:
         T = mt.make_translation_matrix(link_length/2, 0)
 
         self.shape_matrix = T @ S
+        self.link_width = link_width
+        self.link_length = link_length
 
     def matrix_shape_palm(self, palm_width):
         """ This is palm of the gripper - a rectangle palm_width tall, centered at the origin, 1/10 as wide as it is tall
