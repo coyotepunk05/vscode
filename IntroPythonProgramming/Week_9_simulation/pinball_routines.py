@@ -31,6 +31,8 @@ def compute_next_step(current_state, delta_t=0.1):
     #  Acceleration is gravity (optional HWK: Add drag, which is a fraction of velocity in the opposite direction)
     result = np.zeros(current_state.shape)
     # YOUR CODE HERE
+    result[1, :] = current_state[1, :] + delta_t * current_state[2, :]
+    result[2, :] = current_state[2, :]
     # The new position (for both x and y) is just p + dt * v - current position + delta t * velocity
     result[0, :] = current_state[0, :] + delta_t * current_state[1, :]   # Numpy arrays will handle doing both x and y
     # The new velocity for x is the old velocity plus some of the acceleration

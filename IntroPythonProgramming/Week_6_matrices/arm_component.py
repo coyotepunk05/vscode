@@ -123,7 +123,7 @@ class ArmComponent:
 
         self.shape_matrix = T @ S
 
-        # return self.shape_matrix
+        return self.shape_matrix
 
     def matrix_shape_link(self, link_length, link_width):
         """ This is one of the arm components - since they're all kinda the same (just different sizes) just have
@@ -143,6 +143,8 @@ class ArmComponent:
         self.link_width = link_width
         self.link_length = link_length
 
+        return self.shape_matrix
+
     def matrix_shape_palm(self, palm_width):
         """ This is palm of the gripper - a rectangle palm_width tall, centered at the origin, 1/10 as wide as it is tall
         @param palm_width - the desired separation of the two fingers
@@ -155,6 +157,11 @@ class ArmComponent:
         S = mt.make_scale_matrix(palm_width/20, palm_width/2)
 
         self.shape_matrix = S
+
+        self.link_length = palm_width
+        self.link_width = palm_width/20
+
+        return self.shape_matrix
 
     def matrix_shape_finger(self, palm_width, finger_length, finger_width, b_is_top):
         """ This is one of the fingers. Each finger is a wedge, separated by the palm width
@@ -177,6 +184,11 @@ class ArmComponent:
         R = mt.make_rotation_matrix(-np.deg2rad(90))
 
         self.shape_matrix = T @ S @ R
+
+        self.link_length = finger_length
+        self.link_width = finger_width
+
+        return self.shape_matrix
 
     def set_pose_matrix(self, pose_matrix):
         """Set the pose matrix to the given one
@@ -202,6 +214,7 @@ class ArmComponent:
 
         # Call the set_pose_matrix method to actually save the matrix
         self.set_pose_matrix(pose_matrix=pose_matrix)
+        self.angle = rot_amt
 
     def plot(self, axs, b_do_pose_matrix=False):
         """Plot the object in the world by applying Matrix_shape then Matrix_pose (if in_b_do_pose_matrix is True)
