@@ -70,7 +70,7 @@ def outside_top_wall(x_y, y_height):
     @return True/False"""
     # TODO return true if x_y is on the other side of the wall
     # YOUR CODE HERE
-    return False
+    return x_y[1] > y_height
 
 
 def outside_left_wall(x_y, x_wall):
@@ -80,7 +80,7 @@ def outside_left_wall(x_y, x_wall):
     @return True/False"""
     # TODO return true if x_y is on the other side of the wall
     # YOUR CODE HERE
-    return False
+    return x_y[0] < x_wall
 
 
 def outside_right_wall(x_y, x_wall):
@@ -90,7 +90,7 @@ def outside_right_wall(x_y, x_wall):
     @return True/False"""
     # TODO return true if x_y is on the other side of the wall
     # YOUR CODE HERE
-    return False
+    return x_y[0] > x_wall
 
 
 # ---------------------- Run into the bumpers functions ----------
