@@ -96,6 +96,15 @@ class PinballWall:
         #  This should just be moving the code you did last week into this method
         #    pinball_routines inside/outside
         # YOUR CODE HERE
+        x, y = x_y
+        vx, vy = vx_vy
+
+        if self.wall_type == "Horizontal":
+            return np.array([x, 2 * self.abc[2] - y]), np.array([vx, -vy])
+        
+        if self.wall_type == "Vertical":
+            return np.array([2 * -self.abc[2] - x, y]), np.array([-vx, vy])
+        
         # Rotation and translation that will bring the wall to be vertical and at x=0
         ang = np.arctan2(b, a)   # normal of wall
         # assert(np.isclose(dot_w_normal, 0.0))
@@ -104,6 +113,7 @@ class PinballWall:
         # Now can just flip x for velocity and position
         #   Should be, but just in case velocity has flipped already
         # Rotate/translate back
+
         return x_y, vx_vy
 
     def __str__(self):
@@ -129,6 +139,22 @@ class PinballWall:
     def test_reflect(self):
         """ Put any tests for reflection here"""
         # YOUR CODE HERE
+        vert_wall = PinballWall(wall_type="Vertical", intercept_value=2)
+        pos = np.array([3, 1])
+        vel = np.array([1, 0])
+        new_pos, new_vel = vert_wall.reflect(pos, vel)
+
+        assert np.allclose(new_pos, np.array([1, 1]))
+        assert np.allclose(new_vel, np.array([-1, 0]))
+
+        horiz_wall = PinballWall(wall_type="Horizontal", intercept_value=2)
+        pos = np.array([1, 3])
+        vel = np.array([0, 1])
+        new_pos, new_vel = horiz_wall.reflect(pos, vel)
+
+        assert np.allclose(new_pos, np.array([1, -7]))
+        assert np.allclose(new_vel, np.array([0, -1]))
+
         return True
 
     def plot(self, axs, left, right, height):
@@ -144,9 +170,17 @@ class PinballWall:
         #   Hint: get x values between the left and right walls, solve for y = (-ax -c)/b and keep only the points
         #    inside the box
         # YOUR CODE HERE
+        if self.wall_type == "Vertical":
+            x = -self.abc[2]/self.abc[0]
+            axs.plot([x, x], [0, height], color='green')
+
+        if self.wall_type == "Horizontal":
+            y = -self.abc[2]/self.abc[1]
+            axs.plot([left, right], [y, y], color='purple')
 
 
 if __name__ == '__main__':
+    ...
     # TODO Create instances and call test functions
     # YOUR CODE HERE
     # Now create two instances of the class
